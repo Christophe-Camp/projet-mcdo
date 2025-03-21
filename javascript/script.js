@@ -57,10 +57,11 @@ function afficherCategorie() {
             
         //création d'une vignette clicable
         let div = document.createElement('div');
+        div.classList.add("col-4");
         //categorie[0] pour appeler l'image du premier produit de la catégorie
         let contenu = "<button onclick='afficherProduit(" + '"' + categ + '"' + ")'>";
         contenu += '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
-        contenu += "<h3>'" + categ + "'</h3>";
+        contenu += "<h3>" + categ + "</h3>";
         contenu += "</button>";
         //rempli une nouvelle div avec le contenu
         div.innerHTML = contenu;
@@ -86,6 +87,7 @@ function afficherProduit(prod) {
             for (let i = 0; i < catTab.length; i++){
             //création d'une vignette
             let div = document.createElement('div');
+            div.classList.add("col-4");
             //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
 
             let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + "," + catTab[i].id + "," + "false" + '"' + ")'>";
