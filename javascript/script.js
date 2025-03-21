@@ -95,7 +95,7 @@ function afficherProduit(prod) {
     titrePage.classList.remove('d-none');
     titrePage.classList.add('d-block');
     titrePage.innerText = prod;
-    h1.classList.add('hidden');
+    //h1.classList.add('hidden');
 
 
     //"<td><button onclick='supprimer(" + '"' + produit.reference + '"' +  ")' class='secondary-button'><img src='assets/images/icone/trash.png' alt='Supprimer'></button></td>"
