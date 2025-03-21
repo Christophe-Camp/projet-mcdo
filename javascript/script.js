@@ -4,10 +4,16 @@ let donnees = [];
 let tabCategories = [];
 let tabPanier = [];
 let vProduits = document.getElementById('produits'); //vignette : là où on va déposer les vignettes des produits
-let vCategories = document.getElementById('categories'); //vignette : là où on va déposer les vignettes des produits
-let panierProduits = document.getElementById('panier-produits'); //vignette : là où on va déposer les vignettes des produits
-let panierHeader = document.getElementById('panier-header'); //vignette : là où on va déposer les vignettes des produits
+let vCategories = document.getElementById('categories'); //vignette : là où on va déposer les vignettes des catégories
+let panierProduits = document.getElementById('panierProduits'); //ligne panier
+let panierHeader = document.getElementById('panierHeader'); //header panier
+let pageCategories = document.getElementById('pageCategories');
+let pageProduits = document.getElementById('pageProduits');
+let pagePaiement = document.getElementById('pagePaiement');
 
+
+
+let totalPanier = 0;
 
 fetch('mcdo.json')
   .then(function(reponse) {
@@ -17,7 +23,7 @@ fetch('mcdo.json')
     donnees = data;
     creeCategorie();
     afficherCategorie();
-    afficherProduit("sides");
+    //afficherProduit("sides");
   })
   .catch(function(error) {
     console.error("Erreur lors du chargement du fichier JSON :", error);
@@ -26,18 +32,18 @@ fetch('mcdo.json')
   //Fonctions pour les modales
 
   //Fonction ouverture de modale
-  //Besoin de créer classes hidden et show
+  //Besoin de créer classes d-none et d-block
 function ouvrPage(page){
-    if (page.classList.contains("hidden")){
-        page.classList.remove("hidden");
-        page.classList.add("show");
+    if (page.classList.contains("d-none")){
+        page.classList.remove("d-none");
+        page.classList.add("d-block");
     }
 }
   //Fonction fermeture de modale
   function fermPage(page){
-    if (page.classList.contains("show")){
-        page.classList.remove("show");
-        page.classList.add("hidden");
+    if (page.classList.contains("d-block")){
+        page.classList.remove("d-block");
+        page.classList.add("d-none");
     }
 }
 
@@ -47,25 +53,35 @@ function afficherCategorie() {
 
     tabCategories.forEach(function(categ){
 
-    let catTab = donnees[categ]
-        
-    //création d'une vignette
-    let div = document.createElement('div');
-    //categorie[0] pour appeler l'image du premier produit de la catégorie
-    let contenu = '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
-    contenu += "<h3>'" + categ + "'</h3>";
-    //rempli une nouvelle div avec le contenu
-    div.innerHTML = contenu;
-    vCategories.appendChild(div);
+        let catTab = donnees[categ]
+            
+        //création d'une vignette clicable
+        let div = document.createElement('div');
+        //categorie[0] pour appeler l'image du premier produit de la catégorie
+        let contenu = "<button onclick='afficherProduit(" + '"' + categ + '"' + ")'>";
+        contenu += '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
+        contenu += "<h3>'" + categ + "'</h3>";
+        contenu += "</button>";
+        contenu += "<button onclick='voirDetails(" + catTab[0].id + ")' class=''><p>Détails produits</p></button>";
+        contenu += "<div class='d-block'><p>'" + catTab[0].description + "'</p>";
+        contenu += "<p>'" + catTab[0].calories + " calories'</p></div>";
+        //rempli une nouvelle div avec le contenu
+        div.innerHTML = contenu;
+        vCategories.appendChild(div);
+    })
+}
 
 
-})
+function voirDetails(id){
+    console.log(id);
 }
 
 function afficherProduit(prod) {
+    fermPage(pageCategories);
+    ouvrPage(pageProduits);
     //vide les vignettes catégories
     vProduits.innerHTML = "";
-
+    console.log(prod);
     tabCategories.forEach(function(categ){
 
         let catTab = donnees[categ]
@@ -96,23 +112,47 @@ function creeCategorie() {
 
 
 //fonction pour ajouter un produit au panier
-function ajoutProdPanier(categ, idProd){
-    
-    let catTab = donnees[categ]
+function ajoutProdPanier(categ, idProd, prixInclus){
+    let catTab = donnees[categ];
     for (let i = 0; i < catTab.length; i++){
-    if (catTab[i].id = idProd)
-    //création d'une ligne de tableau tabPanier
-    
-    
-
-
+        let prix = 0
+        if (catTab[i].id = idProd){
+        //test si ajoute le prix
+        if (!prixInclus){
+            prix = catTab[i].price;
+        }
+        //création d'une ligne de tableau tabPanier
+        let nouvLignePanier = {
+            id: catTab[i].id,
+            image: catTab[i].image,
+            name: catTab[i].name,
+            //description: catTab[i].description,
+            price: prix
+        }
+        tabPanier.push(nouvLignePanier);
+        }
     }
+    //Calcul montant total panier
+    totalPanier = totalPanier + prix;
+    //Ajouter nombre produit 
 }
 
 
-//fonction pour ajouter un produit au panier
-function ajoutMenuPanier(menu, side, drink){
-    
+//fonction vide panier
+function resetPanier(){
+    totalPanier = 0;
+    panierHeader.innerHTML = "";
+    panierProduits.innerHTML = "";
+}
+
+//fonction pour ajouter les produits d'un menu au panier
+function ajoutMenuPanier(categ, idMenu, idSide, idDrinks){
+    //ajoute le menu au panier
+    ajoutProdPanier(categ, idMenu, false);
+    //ajoute le side du menu à prix 0 au panier
+    ajoutProdPanier("side", idSide, true);
+    //ajoute le drink du menu à prix 0 au panier
+    ajoutProdPanier("drinks", idDrinks, true);
 }
 
 
@@ -138,43 +178,12 @@ function affichPanier(){
     contenu += "<td>'" + tabPanier[i].name + "'</td>";
     contenu += "<td>'" + tabPanier[i].description + "'</td>";
     contenu += "<td>'" + tabPanier[i].price + "'</td>";
+    //Ajouter boutons + et -
+    //Afficher nombre produit
+    //Afficher total panier
+
     //rempli une nouvelle div avec le contenu
     row.innerHTML = contenu;
     panierProduits.appendChild(row);
     }
 }
-
-/*
-
-//fonction pour ajouter un produit au panier
-function ajoutProdPanier(categ, prod){
-    
-    
-    
-    if (panierHeader.innerHTML === ""){
-        let headRow = document.createElement('tr');
-  
-        let headContenu = "<th colspan='2'>Produit</th>";
-        headContenu += "<th>Description</th>";
-        headContenu += "<th>Prix</th>";
-        //rempli une nouvelle div avec le contenu
-        headRow.innerHTML = headContenu;
-        panierHeader.appendChild(headRow);
-    };
-    
-    let catTab = donnees[categ]
-    for (let i = 0; i < catTab.length; i++){
-    //création d'une ligne de tableau
-    let row = document.createElement('tr');
-    //categorie[i] pour appeler chaque produit de la catégorie
-    let contenu = '<td><img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '"></td>';
-    contenu += "<td>'" + catTab[i].name + "'</td>";
-    contenu += "<td>'" + catTab[i].description + "'</td>";
-    contenu += "<td>'" + catTab[i].price + "'</td>";
-    //rempli une nouvelle div avec le contenu
-    row.innerHTML = contenu;
-    panierProduits.appendChild(row);
-    }
-}
-
-*/
