@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="assets/vendors/bootstrap-5.3.3-dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="..//css/main.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>Mc do</title>
 </head>
 <body>
@@ -35,25 +35,25 @@
             </div>
         </section>
         <section id="pagePanier">
-            <div class="container mt-5">
-                <table class="table ">
-                    <thead class="bg-primary">
+            <div class="mt-5 mx-5">
+                <table class="table table-borderless ">
+                    <thead class="bg-success text-white">
                         <tr >
-                            <th scope="col">Votre commande</th>
-                            <th scope="col" class="text-center">Prix</th>
+                            <th class="bg-success text-white" scope="col">Votre commande</th>
+                            <th id="prixTotal" class="bg-success text-white text-center" scope="col">Prix</th>
                         </tr>
                     </thead>
-                    <tbody class="">
+                    <tbody id="panierProduits" class="m-5">
                         <!-- Les lignes seront ajoutées dynamiquement avec JS -->
-                        <td>Votre commande est vide</td>
+                        <td class="visible">Votre commande est vide</td>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td class="w-50">
-                                <button id="abandonner" class="btn btn-danger w-100">Abandonner la commande</button>
+                                <button id="abandonner" class="btn btn-danger w-75">Abandonner la commande</button>
                             </td>
                             <td class="text-end w-50">
-                                <button id="valider" class="btn btn-success w-100">Valider la commande</button>
+                                <button id="valider" class="btn btn-success w-75">Valider la commande</button>
                             </td>
                         </tr>
                     </tfoot>
