@@ -16,20 +16,21 @@
                 </td>
             
                 <td class="col-8 text-center"><!-- Colonne 2 : Titre -->
-                    <h1 class="m-0">Notre Carte</h1>
+                    <h1 class="m-0 visible">Notre Carte</h1>
+                    <h2 id="titrePage" class="m-0 d-none"></h>
                 </td>
             
-                <td class="col-2 text-center"><!-- Colonne 3 : Bouton -->
-                    <button class="btn">Retour</button>
+                <td id="btnRetour" class="col-2 text-center"><!-- Colonne 3 : Bouton -->
+                    <button onclick="history.back()" id="retour" class="btn">Retour</button>
                 </td>
             </tr>
         </table>
-        <section id="pageCategories" class="categorie">
+        <section id="pageCategories" class="categorie d-block">
             <div id="categories" class="row">
 
             </div>
         </section>
-        <section id="pageProduits" class="produits">
+        <section id="pageProduits" class="produits d-none">
             <div id="produits" class="row">
 
             </div>

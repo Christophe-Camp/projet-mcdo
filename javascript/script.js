@@ -10,6 +10,10 @@ let panierHeader = document.getElementById('panierHeader'); //header panier
 let pageCategories = document.getElementById('pageCategories');
 let pageProduits = document.getElementById('pageProduits');
 let pagePaiement = document.getElementById('pagePaiement');
+let prixTotal = document.getElementById('prixTotal');
+let btnRetour = document.getElementById('btnRetour');
+let titrePage = document.getElementById('titrePage');
+let h1 = document.querySelector('h1');
 
 
 
@@ -47,6 +51,11 @@ function ouvrPage(page){
     }
 }
 
+function fermOuv(pOuverte, pRetour){
+    fermPage(pOuverte);
+    ouvrPage(pRetour);
+}
+
 function afficherCategorie() {
     //vide les vignettes catégories
     vCategories.innerHTML = "";
@@ -77,6 +86,21 @@ function voirDetails(id){
 function afficherProduit(prod) {
     fermPage(pageCategories);
     ouvrPage(pageProduits);
+
+    // mise à jour du bouton retour
+    let btn = document.createElement('button');
+    btnRetour.innerHTML = "";
+    btn.innerHTML = "<button id='retour' class='btn' onclick = 'fermOuv(pageProduits, pageCategories)'>Retour</button>";
+    btnRetour.appendChild(btn);
+    titrePage.classList.remove('d-none');
+    titrePage.classList.add('d-block');
+    titrePage.innerText = prod;
+    h1.classList.add('hidden');
+
+
+    //"<td><button onclick='supprimer(" + '"' + produit.reference + '"' +  ")' class='secondary-button'><img src='assets/images/icone/trash.png' alt='Supprimer'></button></td>"
+
+    //btnRetour.onclick = "fermOuv(" + pageProduits + "," + pageCategories + ")";
     //vide les vignettes catégories
     vProduits.innerHTML = "";
     tabCategories.forEach(function(categ){
