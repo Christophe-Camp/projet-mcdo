@@ -57,11 +57,10 @@ function afficherCategorie() {
             
         //création d'une vignette clicable
         let div = document.createElement('div');
-        div.classList.add("col-4");
-    //categorie[0] pour appeler l'image du premier produit de la catégorie
+        //categorie[0] pour appeler l'image du premier produit de la catégorie
         let contenu = "<button onclick='afficherProduit(" + '"' + categ + '"' + ")'>";
         contenu += '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
-        contenu += "<h3>" + categ + "</h3>";
+        contenu += "<h3>'" + categ + "'</h3>";
         contenu += "</button>";
         //rempli une nouvelle div avec le contenu
         div.innerHTML = contenu;
@@ -87,9 +86,17 @@ function afficherProduit(prod) {
             for (let i = 0; i < catTab.length; i++){
             //création d'une vignette
             let div = document.createElement('div');
-            //categorie[i] pour appeler chaque produit de la catégorie
-            let contenu = '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
+            //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
+
+            let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + "," + catTab[i].id + "," + "false" + '"' + ")'>";
+            contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
             contenu += "<h3>'" + catTab[i].name + "'</h3>";
+            contenu += "</button>";
+            contenu += "<button onclick='voirDetails(" + catTab[i].id + ")' class=''><p>Détails produits</p></button>";
+            contenu += "<div class='d-block'><p>'" + catTab[i].description + "'</p>";
+            contenu += "<p>'" + catTab[i].calories + " calories'</p></div>";
+
+
             //rempli une nouvelle div avec le contenu
             div.innerHTML = contenu;
             vProduits.appendChild(div);
@@ -111,19 +118,44 @@ function creeCategorie() {
 function ajoutProdPanier(categ, idProd, prixInclus){
     let catTab = donnees[categ];
     for (let i = 0; i < catTab.length; i++){
-    if (catTab[i].id = idProd)
-    //création d'une ligne de tableau tabPanier
-    
-    
-
-
+        let prix = 0
+        if (catTab[i].id = idProd){
+        //test si ajoute le prix
+        if (!prixInclus){
+            prix = catTab[i].price;
+        }
+        //création d'une ligne de tableau tabPanier
+        let nouvLignePanier = {
+            id: catTab[i].id,
+            image: catTab[i].image,
+            name: catTab[i].name,
+            //description: catTab[i].description,
+            price: prix
+        }
+        tabPanier.push(nouvLignePanier);
+        }
     }
+    //Calcul montant total panier
+    totalPanier = totalPanier + prix;
+    //Ajouter nombre produit 
 }
 
 
-//fonction pour ajouter un produit au panier
-function ajoutMenuPanier(menu, side, drink){
-    
+//fonction vide panier
+function resetPanier(){
+    totalPanier = 0;
+    panierHeader.innerHTML = "";
+    panierProduits.innerHTML = "";
+}
+
+//fonction pour ajouter les produits d'un menu au panier
+function ajoutMenuPanier(categ, idMenu, idSide, idDrinks){
+    //ajoute le menu au panier
+    ajoutProdPanier(categ, idMenu, false);
+    //ajoute le side du menu à prix 0 au panier
+    ajoutProdPanier("side", idSide, true);
+    //ajoute le drink du menu à prix 0 au panier
+    ajoutProdPanier("drinks", idDrinks, true);
 }
 
 
