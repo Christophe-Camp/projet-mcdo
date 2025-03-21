@@ -62,9 +62,6 @@ function afficherCategorie() {
         contenu += '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
         contenu += "<h3>'" + categ + "'</h3>";
         contenu += "</button>";
-        contenu += "<button onclick='voirDetails(" + catTab[0].id + ")' class=''><p>Détails produits</p></button>";
-        contenu += "<div class='d-block'><p>'" + catTab[0].description + "'</p>";
-        contenu += "<p>'" + catTab[0].calories + " calories'</p></div>";
         //rempli une nouvelle div avec le contenu
         div.innerHTML = contenu;
         vCategories.appendChild(div);
@@ -81,19 +78,25 @@ function afficherProduit(prod) {
     ouvrPage(pageProduits);
     //vide les vignettes catégories
     vProduits.innerHTML = "";
-    console.log(prod);
     tabCategories.forEach(function(categ){
 
         let catTab = donnees[categ]
-
         //vérifie si on est sur la catégorie à filter
         if (categ === prod){
             for (let i = 0; i < catTab.length; i++){
             //création d'une vignette
             let div = document.createElement('div');
-            //categorie[i] pour appeler chaque produit de la catégorie
-            let contenu = '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
+            //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
+
+            let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + "," + catTab[i].id + "," + "false" + '"' + ")'>";
+            contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
             contenu += "<h3>'" + catTab[i].name + "'</h3>";
+            contenu += "</button>";
+            contenu += "<button onclick='voirDetails(" + catTab[i].id + ")' class=''><p>Détails produits</p></button>";
+            contenu += "<div class='d-block'><p>'" + catTab[i].description + "'</p>";
+            contenu += "<p>'" + catTab[i].calories + " calories'</p></div>";
+
+
             //rempli une nouvelle div avec le contenu
             div.innerHTML = contenu;
             vProduits.appendChild(div);
