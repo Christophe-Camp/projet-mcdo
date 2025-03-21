@@ -24,40 +24,42 @@
                 </td>
             </tr>
         </table>
-        <section class="categorie">
+        <section id="pageCategories" class="categorie">
             <div id="categories" class="row">
 
             </div>
         </section>
-        <section class="produits">
+        <section id="pageProduits" class="produits">
             <div id="produits" class="row">
 
             </div>
         </section>
-        <div class="container mt-5">
-            <table class="table ">
-                <thead class="bg-primary">
-                    <tr >
-                        <th scope="col">Votre commande</th>
-                        <th scope="col" class="text-center">Prix</th>
-                    </tr>
-                </thead>
-                <tbody class="">
-                    <!-- Les lignes seront ajoutées dynamiquement avec JS -->
-                     <td>Votre commande est vide</td>
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <td class="w-50">
-                            <button id="abandonner" class="btn btn-danger w-100">Abandonner la commande</button>
-                        </td>
-                        <td class="text-end w-50">
-                            <button id="valider" class="btn btn-success w-100">Valider la commande</button>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+        <section id="pagePanier">
+            <div class="container mt-5">
+                <table class="table ">
+                    <thead class="bg-primary">
+                        <tr >
+                            <th scope="col">Votre commande</th>
+                            <th scope="col" class="text-center">Prix</th>
+                        </tr>
+                    </thead>
+                    <tbody class="">
+                        <!-- Les lignes seront ajoutées dynamiquement avec JS -->
+                        <td>Votre commande est vide</td>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td class="w-50">
+                                <button id="abandonner" class="btn btn-danger w-100">Abandonner la commande</button>
+                            </td>
+                            <td class="text-end w-50">
+                                <button id="valider" class="btn btn-success w-100">Valider la commande</button>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
     </main>
 </body>
 <script src="javascript/script.js"></script>
