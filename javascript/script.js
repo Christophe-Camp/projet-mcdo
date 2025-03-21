@@ -51,9 +51,10 @@ function afficherCategorie() {
         
     //création d'une vignette
     let div = document.createElement('div');
+    div.classList.add("col-4");
     //categorie[0] pour appeler l'image du premier produit de la catégorie
     let contenu = '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
-    contenu += "<h3>'" + categ + "'</h3>";
+    contenu += "<h3>" + categ + "</h3>";
     //rempli une nouvelle div avec le contenu
     div.innerHTML = contenu;
     vCategories.appendChild(div);
@@ -75,9 +76,10 @@ function afficherProduit(prod) {
             for (let i = 0; i < catTab.length; i++){
             //création d'une vignette
             let div = document.createElement('div');
+            div.classList.add("col-4");
             //categorie[i] pour appeler chaque produit de la catégorie
             let contenu = '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
-            contenu += "<h3>'" + catTab[i].name + "'</h3>";
+            contenu += "<h3>" + catTab[i].name + "</h3>";
             //rempli une nouvelle div avec le contenu
             div.innerHTML = contenu;
             vProduits.appendChild(div);
@@ -100,12 +102,9 @@ function ajoutProdPanier(categ, idProd){
     
     let catTab = donnees[categ]
     for (let i = 0; i < catTab.length; i++){
-    if (catTab[i].id = idProd)
+    if (catTab[i].id = idProd){}
     //création d'une ligne de tableau tabPanier
     
-    
-
-
     }
 }
 
