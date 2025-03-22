@@ -68,8 +68,8 @@ function afficherCategorie() {
         let div = document.createElement('div');
         div.classList.add("col-4");
         //categorie[0] pour appeler l'image du premier produit de la catégorie
-        let contenu = "<button onclick='afficherProduit(" + '"' + categ + '"' + ")'>";
-        contenu += '<img src="assets/' + catTab[0].image + '" alt="' + categ + '">';
+        let contenu = "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='afficherProduit(" + '"' + categ + '"' + ")'>";
+        contenu += '<img class="img-fluid w-100" src="assets/' + catTab[0].image + '" alt="' + categ + '">';
         contenu += "<h3>" + categ + "</h3>";
         contenu += "</button>";
         //rempli une nouvelle div avec le contenu
@@ -114,11 +114,11 @@ function afficherProduit(prod) {
             div.classList.add("col-4");
             //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
 
-            let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + "," + catTab[i].id + "," + "false" + '"' + ")'>";
+            let contenu = "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='ajoutProdPanier(" + '"' + categ + "," + catTab[i].id + "," + "false" + '"' + ")'>";
             contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
-            contenu += "<h3>'" + catTab[i].name + "'</h3>";
+            contenu += "<h3>" + catTab[i].name + "</h3>";
             contenu += "</button>";
-            contenu += "<button onclick='voirDetails(" + catTab[i].id + ")' class=''><p>Détails produits</p></button>";
+            contenu += "<button class='rounded-circle' onclick='voirDetails(" + catTab[i].id + ")' class=''><p>i</p></button>";
             contenu += "<div class='d-block'><p>'" + catTab[i].description + "'</p>";
             contenu += "<p>'" + catTab[i].calories + " calories'</p></div>";
 
