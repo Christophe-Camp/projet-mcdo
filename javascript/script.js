@@ -217,10 +217,11 @@ function affichPanier(){
     for (let i = 0; i < tabPanier.length; i++){
     //création d'une ligne de tableau
     let row = document.createElement('tr');
+    row.classList.add("test-panier");
     //categorie[i] pour appeler chaque produit de la catégorie
-    let contenu = '<td><img src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';
-    contenu += "<td>" + tabPanier[i].name + "</td>";
-    contenu += "<td>" + tabPanier[i].price + " €</td>";
+    let contenu = '<td><img class="" src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';
+    contenu += "<td class='d-flex justify-content-between'><p>" + tabPanier[i].name + "</p>";
+    contenu += "<p>" + tabPanier[i].price + " €</p></td>";
     //Ajouter boutons + et -
     //Afficher nombre produit
     //Afficher total panier
@@ -228,7 +229,7 @@ function affichPanier(){
     //rempli une nouvelle div avec le contenu
     row.innerHTML = contenu;
     panierProduits.appendChild(row);
-    prixTotal.innerText = parseInt(totalPanier*100)/100 + " €";
+    prixTotal.innerText = "Total " + parseInt(totalPanier*100)/100 + " €";
     }
 }
 
