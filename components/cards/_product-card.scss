@@ -4,9 +4,3 @@
     object-fit: cover;
     display: block;
 }
-
-.tab-produits img {
-    height: 3.5rem;
-    width: auto; /* Garder le ratio d'aspect de l'image */
-    object-fit: cover; /* L'image occupe tout le cadre, même si elle est rognée */
-}

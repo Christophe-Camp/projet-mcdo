@@ -103,7 +103,7 @@ function afficherProduit(prod) {
     // mise à jour du bouton retour
     let btn = document.createElement('button');
     btnRetour.innerHTML = "";
-    btn.innerHTML = "<button id='retour' class='btn' onclick = 'fermOuv(newPage, backPage)'>Retour</button>";
+    btn.innerHTML = "<button id='retour' class='btn btn-success' onclick = 'fermOuv(newPage, backPage)'>Retour</button>";
     btnRetour.appendChild(btn);
     titrePage.classList.remove('d-none');
     titrePage.classList.add('d-block');
@@ -183,8 +183,9 @@ function ajoutProdPanier(categ, idProd, prixInclus){
 //fonction vide panier
 function resetPanier(){
     totalPanier = 0;
+    prixTotal.innerText = "Prix";
     //panierHeader.innerHTML = "";
-    panierProduits.innerHTML = "";
+    panierProduits.innerHTML = "Votre commande est vide";
     tabPanier = [];
 
 }
@@ -217,9 +218,8 @@ function affichPanier(){
     for (let i = 0; i < tabPanier.length; i++){
     //création d'une ligne de tableau
     let row = document.createElement('tr');
-    row.classList.add("test-panier");
     //categorie[i] pour appeler chaque produit de la catégorie
-    let contenu = '<td><img class="" src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';
+    let contenu = '<td><img class="img-fluid text-center" style="height: 3.5rem;" src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';  // rajouter du css je n'arrive pas a le faire correctement
     contenu += "<td class='d-flex justify-content-between'><p>" + tabPanier[i].name + "</p>";
     contenu += "<p>" + tabPanier[i].price + " €</p></td>";
     //Ajouter boutons + et -
@@ -243,5 +243,7 @@ btnAbandon.addEventListener("click", function(){
 btnValide.addEventListener("click", function(){
     if (totalPanier > 0){
         fermOuv(newPage, pagePaiement);
+        document.getElementById("valider").innerText = "Finaliser la commande";
+        document.getElementById("abandonner").innerText = "Annuler le paiement";
     }
 });
