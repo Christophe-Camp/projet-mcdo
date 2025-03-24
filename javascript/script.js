@@ -144,7 +144,7 @@ function afficherProduit(prod) {
                 contenu += "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
             };
 
-            contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
+            contenu += '<img class="img-fluid w-100" src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
             contenu += "<h3>" + catTab[i].name + "</h3>";
             contenu += "</button>";
             contenu += "<button class='rounded-circle info-btn' onclick='voirDetails(" + catTab[i].id + ")' class=''><p>i</p></button>";
