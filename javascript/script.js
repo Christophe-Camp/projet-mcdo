@@ -98,7 +98,15 @@ function afficherCategorie() {
 
 
 function voirDetails(id){
-    console.log(id);
+    let detail = document.getElementById("detail-" + id);
+    console.log(detail);
+    if (detail.classList.contains("d-block")){
+        detail.classList.remove("d-block");
+        detail.classList.add("d-none");
+    }else if (detail.classList.contains("d-none")){
+        detail.classList.remove("d-none");
+        detail.classList.add("d-block");
+    } 
 }
 
 function afficherProduit(prod) {
@@ -107,7 +115,7 @@ function afficherProduit(prod) {
     ouvrPage(pageProduits);
 
     // mise à jour du bouton retour
-    let btn = document.createElement('button');
+    let btn = document.createElement('div');
     btnRetour.innerHTML = "";
     btn.innerHTML = "<button id='retour' class='btn btn-success' onclick = 'fermOuv(newPage, backPage)'>Retour</button>";
     btnRetour.appendChild(btn);
@@ -138,10 +146,9 @@ function afficherProduit(prod) {
 
             contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
             contenu += "<h3>" + catTab[i].name + "</h3>";
-            contenu += "<h3>" + catTab[i].name + "</h3>";
             contenu += "</button>";
             contenu += "<button class='rounded-circle' onclick='voirDetails(" + catTab[i].id + ")' class=''><p>i</p></button>";
-            contenu += "<div class='d-block'><p>" + catTab[i].description + "</p>";
+            contenu += "<div id='detail-" + catTab[i].id + "' class='d-none'><p>" + catTab[i].description + "</p>";
             contenu += "<p>" + catTab[i].calories + " calories</p></div>";
 
 
@@ -319,9 +326,11 @@ btnAbandon.addEventListener("click", function(){
 });
 
 btnValide.addEventListener("click", function(){
+    
     if (totalPanier > 0){
         fermOuv(newPage, pagePaiement);
-        document.getElementById("valider").innerText = "Finaliser la commande";
-        document.getElementById("abandonner").innerText = "Annuler le paiement";
+        //document.getElementById("valider").innerText = "Finaliser la commande";
+        //document.getElementById("abandonner").innerText = "Annuler le paiement";
+        newPage = pageCategories;
     }
 });
