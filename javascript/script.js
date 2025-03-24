@@ -128,8 +128,14 @@ function afficherProduit(prod) {
             let div = document.createElement('div');
             div.classList.add("col-4");
             //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
+                let contenu = "";
+            if ((prod === "menus") || (prod === "happyMeal")){
+                //contenu += "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='afficherMenu(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";    
+                contenu += "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
+            }else{
+                contenu += "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
+            };
 
-            let contenu = "<button class='img-categorie w-100 border-0 bg-transparent p-0' onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
             contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
             contenu += "<h3>" + catTab[i].name + "</h3>";
             contenu += "<h3>" + catTab[i].name + "</h3>";
