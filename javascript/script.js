@@ -3,12 +3,18 @@
 let donnees = [];
 let tabCategories = [];
 let tabPanier = [];
+let tabMenu = [];
 let vProduits = document.getElementById('produits'); //vignette : là où on va déposer les vignettes des produits
 let vCategories = document.getElementById('categories'); //vignette : là où on va déposer les vignettes des catégories
 let panierProduits = document.getElementById('panierProduits'); //ligne panier
 let panierHeader = document.getElementById('panierHeader'); //header panier
 let pageCategories = document.getElementById('pageCategories');
 let pageProduits = document.getElementById('pageProduits');
+let pageMenu = document.getElementById('pageMenu');
+let menuMain = document.getElementById('MenuMain');
+let menuSide = document.getElementById('menuSide');
+let menuDrink = document.getElementById('menuDrink');
+let menuToy = document.getElementById('menuToy');
 let pagePaiement = document.getElementById('pagePaiement');
 let prixTotal = document.getElementById('prixTotal');
 let btnRetour = document.getElementById('btnRetour');
@@ -141,6 +147,72 @@ function afficherProduit(prod) {
     })
     newPage = pageProduits;
 }
+
+
+//AfficherMenu
+
+
+function afficherMenu(menu, choix) {
+    backPage = pageProduits;
+    fermPage(pageProduits);
+    ouvrPage(pageMenu);
+
+    // mise à jour du bouton retour
+    let btn = document.createElement('button');
+    btnRetour.innerHTML = "";
+    btn.innerHTML = "<button id='retour' class='btn' onclick = 'fermOuv(newPage, backPage)'>Retour</button>";
+    btnRetour.appendChild(btn);
+    titrePage.classList.remove('d-none');
+    titrePage.classList.add('d-block');
+    titrePage.innerText = prod;
+    h1.classList.add('invisible');
+
+    //vide les vignettes catégories
+    menuMain.innerHTML = "";
+    tabCategories.forEach(function(categ){
+
+        let catTab = donnees[categ];
+        //vérifie si on est sur la catégorie à filter
+        if (categ === menu){ 
+            for (let i = 0; i < catTab.length; i++){
+            if (catTab[i].id === choix){
+
+            //création d'une vignette avec le main
+            let div = document.createElement('div');
+            div.classList.add("col-4");
+            //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
+            let contenu = '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
+            contenu += "<h3>" + catTab[i].name + "</h3>";
+            //rempli une nouvelle div avec le contenu
+            div.innerHTML = contenu;
+            menuMain.appendChild(div);
+            }
+/*
+            //création des vignettes side
+            let div = document.createElement('div');
+            div.classList.add("col-4");
+            //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
+
+            let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
+            contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
+            contenu += "<h3>" + catTab[i].name + "</h3>";
+            contenu += "</button>";
+            contenu += "<button onclick='voirDetails(" + catTab[i].id + ")' class=''><p>Détails produits</p></button>";
+            contenu += "<div class='d-block'><p>" + catTab[i].description + "</p>";
+            contenu += "<p>" + catTab[i].calories + " calories</p></div>";
+
+
+            //rempli une nouvelle div avec le contenu
+            div.innerHTML = contenu;
+            vProduits.appendChild(div);
+*/
+
+            }
+        }
+    })
+    newPage = pageProduits;
+}
+
 
 
 //pour stocker les catégories
