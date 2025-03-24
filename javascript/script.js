@@ -246,7 +246,7 @@ function ajoutProdPanier(categ, idProd, prixInclus){
             tabPanier.forEach(function(t) {
                 if (t.id === idProd){
                     t.nb = t.nb + 1;
-                    t.price = t.price + prix;
+                    t.price = Math.round((t.price + prix) * 100 ) / 100;
                     newProd = false;
                 }
             });
@@ -259,7 +259,7 @@ function ajoutProdPanier(categ, idProd, prixInclus){
                     image: catTab[i].image,
                     name: catTab[i].name,
                     nb: 1,
-                    price: prix,
+                    price: Math.round(prix * 100) / 100,
                 }
                 tabPanier.push(nouvLignePanier);
             }
@@ -289,7 +289,7 @@ function supprProdPanier(idProd){
                 totalPanier = Math.round((totalPanier - (t.price / t.nb)) * 100) / 100;
                 nbPanier = nbPanier - 1;
                 //Ajouter nombre produit
-                t.price = t.price - (t.price / t.nb);
+                t.price = Math.round((t.price - (t.price / t.nb)) * 100) / 100;
                 t.nb = t.nb - 1;
             }
         }
@@ -333,16 +333,6 @@ function ajoutMenuPanier(categ, idMenu, idSide, idDrinks){
 //fonction affichage du panier (base = table tabPanier)
 function affichPanier(){
     panierProduits.innerHTML = "";
-    if (tabPanier.length === 0){
-        let headRow = document.createElement('tr');
-  
-        let headContenu = "<th colspan='2'>Produit</th>";
-        headContenu += "<th>Description</th>";
-        headContenu += "<th>Prix</th>";
-        //rempli une nouvelle div avec le contenu
-        headRow.innerHTML = headContenu;
-        panierHeader.appendChild(headRow);
-    };
     
     for (let i = 0; i < tabPanier.length; i++){
     //création d'une ligne de tableau
