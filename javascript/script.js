@@ -314,7 +314,7 @@ function resetPanier(){
     prixTotal.innerText = "Prix";
     //panierHeader.innerHTML = "";
     panierProduits.innerHTML = "Votre commande est vide";
-    nbTotal.innerText = "Cotre commande (0)";
+    nbTotal.innerText = "Votre commande (0)";
     tabPanier = [];
 
 }
@@ -339,10 +339,10 @@ function affichPanier(){
     let row = document.createElement('tr');
     //categorie[i] pour appeler chaque produit de la catégorie
     let contenu = '<td><img class="img-fluid text-center" style="height: 3.5rem;" src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';  // rajouter du css je n'arrive pas a le faire correctement
-    contenu += "<td><p>" + tabPanier[i].name +  " (" + tabPanier[i].nb + ") " + "</p></td>";
-    contenu += "<td><button class='rounded-circle info-btn' onclick='supprProdPanier(" + tabPanier[i].id + ")' class=''><p>-</p></button></td>";
-    contenu += "<td><button class='rounded-circle info-btn' onclick='ajoutProdPanier(" + '"' + tabPanier[i].categorie + '"' + "," + tabPanier[i].id + "," + false + ")' class=''><p>+</p></button></td>";
-    contenu += "<td><p>" + tabPanier[i].price + " €</p></td>";
+    contenu += "<td class='align-middle'><p>" + tabPanier[i].name +  " x" + tabPanier[i].nb + " " + "</p></td>";
+    contenu += "<td class='align-middle'><button class='rounded-circle info-btn bg-danger' onclick='supprProdPanier(" + tabPanier[i].id + ")' class=''><p>-</p></button></td>";
+    contenu += "<td class='align-middle'><button class='rounded-circle info-btn bg-success' onclick='ajoutProdPanier(" + '"' + tabPanier[i].categorie + '"' + "," + tabPanier[i].id + "," + false + ")' class=''><p>+</p></button></td>";
+    contenu += "<td class='align-middle'><p>" + tabPanier[i].price + " €</p></td>";
     //Ajouter boutons + et -
     //Afficher nombre produit
     //Afficher total panier
