@@ -213,25 +213,6 @@ function afficherMenu(menu, choix) {
             div.innerHTML = contenu;
             menuMain.appendChild(div);
             }
-/*
-            //création des vignettes side
-            let div = document.createElement('div');
-            div.classList.add("col-4");
-            //categorie[i] pour appeler chaque produit de la catégorie (vignette clicable)
-
-            let contenu = "<button onclick='ajoutProdPanier(" + '"' + categ + '"' + "," + catTab[i].id + "," + "false" + ")'>";
-            contenu += '<img src="assets/' + catTab[i].image + '" alt="' + catTab[i].name + '">';
-            contenu += "<h3>" + catTab[i].name + "</h3>";
-            contenu += "</button>";
-            contenu += "<button onclick='voirDetails(" + catTab[i].id + ")' class=''><p>Détails produits</p></button>";
-            contenu += "<div class='d-block'><p>" + catTab[i].description + "</p>";
-            contenu += "<p>" + catTab[i].calories + " calories</p></div>";
-
-
-            //rempli une nouvelle div avec le contenu
-            div.innerHTML = contenu;
-            vProduits.appendChild(div);
-*/
 
             }
         }
@@ -285,7 +266,7 @@ function ajoutProdPanier(categ, idProd, prixInclus){
         }
     }
     //Calcul montant total panier
-    totalPanier = totalPanier + prix;
+    totalPanier = Math.round((totalPanier + prix) * 100)/100;
     nbPanier = nbPanier + 1;
     //Ajouter nombre produit
     
@@ -299,13 +280,13 @@ function supprProdPanier(idProd){
         if (t.id === idProd){
             if(t.nb === 1){
                 //Calcul montant total panier
-                totalPanier = totalPanier - t.price;
+                totalPanier = Math.round((totalPanier - t.price) * 100 ) / 100;
                 nbPanier = nbPanier - 1;
                 //Ajouter nombre produit
                 tabPanier.splice(k , 1);
             }else{
                 //Calcul montant total panier
-                totalPanier = totalPanier - (t.price / t.nb);
+                totalPanier = Math.round((totalPanier - (t.price / t.nb)) * 100) / 100;
                 nbPanier = nbPanier - 1;
                 //Ajouter nombre produit
                 t.price = t.price - (t.price / t.nb);
@@ -313,6 +294,10 @@ function supprProdPanier(idProd){
             }
         }
         k++;
+        if (totalPanier <= 0){
+            prixTotal.innerText = "Total " + totalPanier + " €";
+            nbTotal.innerText = "Votre commande (" + nbPanier + ")";
+        }
     });
 
 
