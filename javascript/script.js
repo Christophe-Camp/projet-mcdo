@@ -69,6 +69,7 @@ function fermOuv(pOuverte, pRetour){
     if (pRetour = "pageCategories"){
         h1.classList.remove('invisible');
         h1.classList.add('visible');
+        newPage = pageCategories;
     } 
 }
 
@@ -99,7 +100,6 @@ function afficherCategorie() {
 
 function voirDetails(id){
     let detail = document.getElementById("detail-" + id);
-    console.log(detail);
     if (detail.classList.contains("d-block")){
         detail.classList.remove("d-block");
         detail.classList.add("d-none");
@@ -326,11 +326,14 @@ btnAbandon.addEventListener("click", function(){
 });
 
 btnValide.addEventListener("click", function(){
-    
+
     if (totalPanier > 0){
+
         fermOuv(newPage, pagePaiement);
         //document.getElementById("valider").innerText = "Finaliser la commande";
         //document.getElementById("abandonner").innerText = "Annuler le paiement";
-        newPage = pageCategories;
+        newPage = pagePaiement;
+        console.log(newPage);
+        console.log(backPage);
     }
 });
