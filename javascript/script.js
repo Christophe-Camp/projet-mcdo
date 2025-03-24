@@ -1,33 +1,45 @@
-//alert("coucou");
-//tableau miroir du JSON
-let donnees = [];
+//Général
+let donnees = [];//tableau miroir du JSON
+let backPage = "";
+let newPage = "";
+let btnRetour = document.getElementById('btnRetour');
+let h1 = document.querySelector('h1');
+let titrePage = document.getElementById('titrePage');
+
+//Catégories
 let tabCategories = [];
-let tabPanier = [];
-let tabMenu = [];
-let vProduits = document.getElementById('produits'); //vignette : là où on va déposer les vignettes des produits
+let pageCategories = document.getElementById('pageCategories');
 let vCategories = document.getElementById('categories'); //vignette : là où on va déposer les vignettes des catégories
+
+//Produits
+let pageProduits = document.getElementById('pageProduits');
+let vProduits = document.getElementById('produits'); //vignette : là où on va déposer les vignettes des produits
+
+//Panier
+let tabPanier = [];
 let panierProduits = document.getElementById('panierProduits'); //ligne panier
 let panierHeader = document.getElementById('panierHeader'); //header panier
-let pageCategories = document.getElementById('pageCategories');
-let pageProduits = document.getElementById('pageProduits');
+let btnAbandon = document.getElementById('abandonner');
+let btnValide = document.getElementById('valider');
+let totalPanier = 0;
+let nbPanier = 0;
+let prixTotal = document.getElementById('prixTotal');
+let nbTotal = document.getElementById('nbTotal');
+
+//Menu
+let tabMenu = [];
 let pageMenu = document.getElementById('pageMenu');
 let menuMain = document.getElementById('MenuMain');
 let menuSide = document.getElementById('menuSide');
 let menuDrink = document.getElementById('menuDrink');
 let menuToy = document.getElementById('menuToy');
+
+//Page paiement
 let pagePaiement = document.getElementById('pagePaiement');
-let prixTotal = document.getElementById('prixTotal');
-let btnRetour = document.getElementById('btnRetour');
-let btnAbandon = document.getElementById('abandonner');
-let btnValide = document.getElementById('valider');
-let titrePage = document.getElementById('titrePage');
-let h1 = document.querySelector('h1');
-let backPage = "";
-let newPage = "";
 
 
-let totalPanier = 0;
 
+//JSON
 fetch('mcdo.json')
   .then(function(reponse) {
     return reponse.json();
@@ -62,6 +74,7 @@ function ouvrPage(page){
     }
 }
 
+//Fonction intégrée dans bouton retour
 function fermOuv(pOuverte, pRetour){
     fermPage(pOuverte);
     ouvrPage(pRetour);
@@ -238,39 +251,85 @@ function creeCategorie() {
 
 //fonction pour ajouter un produit au panier
 function ajoutProdPanier(categ, idProd, prixInclus){
-    let prix = 0
+    let prix = 0;
     let catTab = donnees[categ];
+    let newProd = true;
+    
     for (let i = 0; i < catTab.length; i++){
         if (catTab[i].id === idProd){
-        //test si ajoute le prix
-        if (!prixInclus){
-            prix = catTab[i].price;
-        }
-        //création d'une ligne de tableau tabPanier
-        let nouvLignePanier = {
-            id: catTab[i].id,
-            image: catTab[i].image,
-            name: catTab[i].name,
-            //description: catTab[i].description,
-            price: parseInt(prix * 100)/100,
-        }
-        tabPanier.push(nouvLignePanier);
+            //test si ajoute le prix
+            if (!prixInclus){
+                prix = catTab[i].price;
+            }
+
+            tabPanier.forEach(function(t) {
+                if (t.id === idProd){
+                    t.nb = t.nb + 1;
+                    t.price = t.price + prix;
+                    newProd = false;
+                }
+            });
+
+            if (newProd){
+                //création d'une ligne de tableau tabPanier
+                let nouvLignePanier = {
+                    id: catTab[i].id,
+                    categorie : categ,
+                    image: catTab[i].image,
+                    name: catTab[i].name,
+                    nb: 1,
+                    price: prix,
+                }
+                tabPanier.push(nouvLignePanier);
+            }
         }
     }
     //Calcul montant total panier
     totalPanier = totalPanier + prix;
+    nbPanier = nbPanier + 1;
     //Ajouter nombre produit
     
     affichPanier();
 }
 
 
+function supprProdPanier(idProd){
+    let k = 0;
+    tabPanier.forEach(function(t) {
+        if (t.id === idProd){
+            if(t.nb === 1){
+                //Calcul montant total panier
+                totalPanier = totalPanier - t.price;
+                nbPanier = nbPanier - 1;
+                //Ajouter nombre produit
+                tabPanier.splice(k , 1);
+            }else{
+                //Calcul montant total panier
+                totalPanier = totalPanier - (t.price / t.nb);
+                nbPanier = nbPanier - 1;
+                //Ajouter nombre produit
+                t.price = t.price - (t.price / t.nb);
+                t.nb = t.nb - 1;
+            }
+        }
+        k++;
+    });
+
+
+    
+    affichPanier();
+}
+
+
+
 //fonction vide panier
 function resetPanier(){
     totalPanier = 0;
+    nbPanier = 0;
     prixTotal.innerText = "Prix";
     //panierHeader.innerHTML = "";
     panierProduits.innerHTML = "Votre commande est vide";
+    nbTotal.innerText = "Cotre commande (0)";
     tabPanier = [];
 
 }
@@ -305,16 +364,21 @@ function affichPanier(){
     let row = document.createElement('tr');
     //categorie[i] pour appeler chaque produit de la catégorie
     let contenu = '<td><img class="img-fluid text-center" style="height: 3.5rem;" src="assets/' + tabPanier[i].image + '" alt="' + tabPanier[i].name + '"></td>';  // rajouter du css je n'arrive pas a le faire correctement
-    contenu += "<td class='d-flex justify-content-between'><p>" + tabPanier[i].name + "</p>";
-    contenu += "<p>" + tabPanier[i].price + " €</p></td>";
+    contenu += "<td><p>" + tabPanier[i].name +  " (" + tabPanier[i].nb + ") " + "</p></td>";
+    contenu += "<td><button class='rounded-circle info-btn' onclick='supprProdPanier(" + tabPanier[i].id + ")' class=''><p>-</p></button></td>";
+    contenu += "<td><button class='rounded-circle info-btn' onclick='ajoutProdPanier(" + '"' + tabPanier[i].categorie + '"' + "," + tabPanier[i].id + "," + false + ")' class=''><p>+</p></button></td>";
+    contenu += "<td><p>" + tabPanier[i].price + " €</p></td>";
     //Ajouter boutons + et -
     //Afficher nombre produit
     //Afficher total panier
 
+
+
     //rempli une nouvelle div avec le contenu
     row.innerHTML = contenu;
     panierProduits.appendChild(row);
-    prixTotal.innerText = "Total " + parseInt(totalPanier*100)/100 + " €";
+    prixTotal.innerText = "Total " + totalPanier + " €";
+    nbTotal.innerText = "Votre commande (" + nbPanier + ")";
     }
 }
 
@@ -333,7 +397,5 @@ btnValide.addEventListener("click", function(){
         //document.getElementById("valider").innerText = "Finaliser la commande";
         //document.getElementById("abandonner").innerText = "Annuler le paiement";
         newPage = pagePaiement;
-        console.log(newPage);
-        console.log(backPage);
     }
 });
